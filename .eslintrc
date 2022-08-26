@@ -1,4 +1,9 @@
 {
   "root": true,
-  "extends": "@upstatement/eslint-config/react"
+  "parser": "@typescript-eslint/parser",
+  "extends": [],
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "@typescript-eslint/no-var-requires": 0
+  }
 }

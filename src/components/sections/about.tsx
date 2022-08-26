@@ -1,10 +1,10 @@
+/* eslint @typescript-eslint/no-var-requires: "off" */
 import React, { useEffect, useRef } from 'react';
 import { StaticImage } from 'gatsby-plugin-image';
 import styled from 'styled-components';
 import { srConfig } from '@config';
 import sr from '@utils/sr';
 import { usePrefersReducedMotion } from '@hooks';
-
 const StyledAboutSection = styled.section`
   max-width: 900px;
 
@@ -112,8 +112,8 @@ const StyledPic = styled.div`
     }
   }
 `;
-
-const About = () => {
+export interface AboutProp {}
+const About: React.FC<AboutProp> = () => {
   const revealContainer = useRef(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
@@ -121,7 +121,6 @@ const About = () => {
     if (prefersReducedMotion) {
       return;
     }
-
     sr.reveal(revealContainer.current, srConfig());
   }, []);
 
@@ -130,15 +129,14 @@ const About = () => {
   return (
     <StyledAboutSection id="about" ref={revealContainer}>
       <h2 className="numbered-heading">About Me</h2>
-
       <div className="inner">
         <StyledText>
           <div>
             <p>
-              Hello! My name is Brittany and I enjoy creating things that live on the internet. My
-              interest in web development started back in 2012 when I decided to try editing custom
-              Tumblr themes — turns out hacking together a custom reblog button taught me a lot
-              about HTML &amp; CSS!
+              Hello! 一大段自我介绍My name is Brittany and I enjoy creating things that live on the
+              internet. My interest in web development started back in 2012 when I decided to try
+              editing custom Tumblr themes — turns out hacking together a custom reblog button
+              taught me a lot about HTML &amp; CSS!
             </p>
 
             <p>
@@ -176,6 +174,7 @@ const About = () => {
               src="../../images/me.jpg"
               width={500}
               quality={95}
+              // @ts-ignore
               formats={['AUTO', 'WEBP', 'AVIF']}
               alt="Headshot"
             />

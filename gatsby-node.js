@@ -89,7 +89,7 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
       },
     });
   }
-
+  //快捷路径配置
   actions.setWebpackConfig({
     resolve: {
       alias: {
