@@ -116,7 +116,8 @@ export interface AboutProp {}
 const About: React.FC<AboutProp> = () => {
   const revealContainer = useRef(null);
   const prefersReducedMotion = usePrefersReducedMotion();
-
+  console.log({ prefersReducedMotion });
+  console.log({ sr });
   useEffect(() => {
     if (prefersReducedMotion) {
       return;
