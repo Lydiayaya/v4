@@ -6,7 +6,12 @@ import { useStaticQuery, graphql } from 'gatsby';
 
 // https://www.gatsbyjs.com/docs/add-seo-component/
 
-const Head = ({ title, description, image }) => {
+export interface HeadProps {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+const Head = ({ title = '', description = '', image = '' }: HeadProps) => {
   const { pathname } = useLocation();
 
   const { site } = useStaticQuery(
@@ -66,14 +71,15 @@ const Head = ({ title, description, image }) => {
 
 export default Head;
 
-Head.propTypes = {
-  title: PropTypes.string,
-  description: PropTypes.string,
-  image: PropTypes.string,
-};
+// Head.propTypes = {
+//   title: PropTypes.string,
+//   description: PropTypes.string,
+//   image: PropTypes.string,
+// };
 
-Head.defaultProps = {
-  title: null,
-  description: null,
-  image: null,
-};
+//指定默认值
+// Head.defaultProps = {
+//   title: null,
+//   description: null,
+//   image: null,
+// };

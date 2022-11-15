@@ -9,11 +9,15 @@ const StyledContent = styled.div`
   flex-direction: column;
   min-height: 100vh;
 `;
-
-const Layout = ({ children, location }) => {
+//这里的类型怎么定义
+export interface LayoutProps {
+  children: any;
+  location: any;
+}
+const Layout = ({ children, location }: LayoutProps) => {
+  //
   const isHome = location.pathname === '/';
   const [isLoading, setIsLoading] = useState(isHome);
-
   // Sets target="_blank" rel="noopener noreferrer" on external links
   const handleExternalLinks = () => {
     const allLinks = Array.from(document.querySelectorAll('a'));
@@ -48,9 +52,10 @@ const Layout = ({ children, location }) => {
 
   return (
     <>
-      <Head />
+      <Head title="Lydia" />
 
       <div id="root">
+        {/* 主题化配置 */}
         <ThemeProvider theme={theme}>
           <GlobalStyle />
 
@@ -78,9 +83,9 @@ const Layout = ({ children, location }) => {
   );
 };
 
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
-  location: PropTypes.object.isRequired,
-};
+// Layout.propTypes = {
+//   children: PropTypes.node.isRequired,
+//   location: PropTypes.object.isRequired,
+// };
 
 export default Layout;

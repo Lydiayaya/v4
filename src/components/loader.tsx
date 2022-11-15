@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import PropTypes from 'prop-types';
+import PropTypes, { any } from 'prop-types';
 import anime from 'animejs';
 import styled from 'styled-components';
 import { IconLoader } from '@components/icons';
@@ -21,7 +21,7 @@ const StyledLoader = styled.div`
     width: max-content;
     max-width: 100px;
     transition: var(--transition);
-    opacity: ${props => (props.isMounted ? 1 : 0)};
+    opacity: ${(props: any) => (props.isMounted ? 1 : 0)};
     svg {
       display: block;
       width: 100%;
@@ -35,8 +35,10 @@ const StyledLoader = styled.div`
     }
   }
 `;
-
-const Loader = ({ finishLoading }) => {
+export interface LoaderProps {
+  finishLoading: Function;
+}
+const Loader = ({ finishLoading }: LoaderProps) => {
   const [isMounted, setIsMounted] = useState(false);
 
   const animate = () => {
@@ -92,8 +94,8 @@ const Loader = ({ finishLoading }) => {
   );
 };
 
-Loader.propTypes = {
-  finishLoading: PropTypes.func.isRequired,
-};
+// Loader.propTypes = {
+//   finishLoading: PropTypes.func.isRequired,
+// };
 
 export default Loader;
