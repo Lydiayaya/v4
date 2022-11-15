@@ -116,15 +116,13 @@ export interface AboutProp {}
 const About: React.FC<AboutProp> = () => {
   const revealContainer = useRef(null);
   const prefersReducedMotion = usePrefersReducedMotion();
-  console.log({ prefersReducedMotion });
-  console.log({ sr });
   useEffect(() => {
     if (prefersReducedMotion) {
       return;
     }
     sr.reveal(revealContainer.current, srConfig());
   }, []);
-
+  //技能数
   const skills = ['JavaScript (ES6+)', 'TypeScript', 'React', 'Eleventy', 'Node.js', 'WordPress'];
 
   return (

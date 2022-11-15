@@ -12,6 +12,7 @@ const getInitialState = () =>
   // will be overwritten on the client, before any animations
   // occur.
   isRenderingOnServer ? true : !window.matchMedia(QUERY).matches;
+//控制动画渲染
 function usePrefersReducedMotion() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(getInitialState);
   useEffect(() => {

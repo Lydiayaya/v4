@@ -48,6 +48,7 @@ const StyledHeroSection = styled.section`
 const Hero = () => {
   const [isMounted, setIsMounted] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
+  console.log({ prefersReducedMotion });//false 这个字段的用意是？
 
   useEffect(() => {
     if (prefersReducedMotion) {
@@ -95,6 +96,7 @@ const Hero = () => {
           ))}
         </>
       ) : (
+        //默认的这个动画版本的
         <TransitionGroup component={null}>
           {isMounted &&
             items.map((item, i) => (
