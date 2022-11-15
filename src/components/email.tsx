@@ -34,8 +34,10 @@ const StyledLinkWrapper = styled.div`
     }
   }
 `;
-
-const Email = ({ isHome }) => (
+export interface EmailProps {
+  isHome: boolean;
+}
+const Email = ({ isHome }: EmailProps) => (
   <Side isHome={isHome} orientation="right">
     <StyledLinkWrapper>
       <a href={`mailto:${email}`}>{email}</a>
@@ -43,8 +45,8 @@ const Email = ({ isHome }) => (
   </Side>
 );
 
-Email.propTypes = {
-  isHome: PropTypes.bool,
-};
+// Email.propTypes = {
+//   isHome: PropTypes.bool,
+// };
 
 export default Email;

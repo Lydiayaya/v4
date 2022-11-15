@@ -207,11 +207,11 @@ const Projects = () => {
   }, []);
 
   const GRID_LIMIT = 6;
-  const projects = data.projects.edges.filter(({ node }) => node);
+  const projects = data.projects.edges.filter(({ node }:any) => node);
   const firstSix = projects.slice(0, GRID_LIMIT);
   const projectsToShow = showMore ? projects : firstSix;
 
-  const projectInner = node => {
+  const projectInner = (node: { frontmatter: any; html: any; }) => {
     const { frontmatter, html } = node;
     const { github, external, title, tech } = frontmatter;
 
@@ -253,7 +253,7 @@ const Projects = () => {
         <footer>
           {tech && (
             <ul className="project-tech-list">
-              {tech.map((tech, i) => (
+              {tech.map((tech: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined, i: React.Key | null | undefined) => (
                 <li key={i}>{tech}</li>
               ))}
             </ul>
@@ -275,14 +275,14 @@ const Projects = () => {
         {prefersReducedMotion ? (
           <>
             {projectsToShow &&
-              projectsToShow.map(({ node }, i) => (
+              projectsToShow.map(({ node }: any, i: React.Key | null | undefined) => (
                 <StyledProject key={i}>{projectInner(node)}</StyledProject>
               ))}
           </>
         ) : (
           <TransitionGroup component={null}>
             {projectsToShow &&
-              projectsToShow.map(({ node }, i) => (
+              projectsToShow.map(({ node }: any, i:number) => (
                 <CSSTransition
                   key={i}
                   classNames="fadeup"
@@ -290,6 +290,7 @@ const Projects = () => {
                   exit={false}>
                   <StyledProject
                     key={i}
+                    //@ts-ignore
                     ref={el => (revealProjects.current[i] = el)}
                     style={{
                       transitionDelay: `${i >= GRID_LIMIT ? (i - GRID_LIMIT) * 100 : 0}ms`,

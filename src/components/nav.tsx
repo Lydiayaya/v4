@@ -32,8 +32,8 @@ const StyledHeader = styled.header`
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    ${props =>
-    props.scrollDirection === 'up' &&
+    ${(props: any) =>
+      props.scrollDirection === 'up' &&
       !props.scrolledToTop &&
       css`
         height: var(--nav-scroll-height);
@@ -42,8 +42,8 @@ const StyledHeader = styled.header`
         box-shadow: 0 10px 30px -10px var(--navy-shadow);
       `};
 
-    ${props =>
-    props.scrollDirection === 'down' &&
+    ${(props: any) =>
+      props.scrollDirection === 'down' &&
       !props.scrolledToTop &&
       css`
         height: var(--nav-scroll-height);
@@ -126,8 +126,10 @@ const StyledLinks = styled.div`
     font-size: var(--fz-xs);
   }
 `;
-
-const Nav = ({ isHome }) => {
+export interface NavProps {
+  isHome: boolean;
+}
+const Nav = ({ isHome }: NavProps) => {
   const [isMounted, setIsMounted] = useState(!isHome);
   const scrollDirection = useScrollDirection('down');
   const [scrolledToTop, setScrolledToTop] = useState(true);
@@ -159,7 +161,7 @@ const Nav = ({ isHome }) => {
   const fadeDownClass = isHome ? 'fadedown' : '';
 
   const Logo = (
-    <div className="logo" tabIndex="-1">
+    <div className="logo" tabIndex={-1}>
       {isHome ? (
         <a href="/" aria-label="home">
           <IconLogo />
@@ -179,6 +181,7 @@ const Nav = ({ isHome }) => {
   );
 
   return (
+    //@ts-ignore
     <StyledHeader scrollDirection={scrollDirection} scrolledToTop={scrolledToTop}>
       <StyledNav>
         {prefersReducedMotion ? (
@@ -188,7 +191,7 @@ const Nav = ({ isHome }) => {
             <StyledLinks>
               <ol>
                 {navLinks &&
-                  navLinks.map(({ url, name }, i) => (
+                  navLinks.map(({ url, name }: any, i: number) => (
                     <li key={i}>
                       <Link to={url}>{name}</Link>
                     </li>
@@ -214,7 +217,7 @@ const Nav = ({ isHome }) => {
                 <TransitionGroup component={null}>
                   {isMounted &&
                     navLinks &&
-                    navLinks.map(({ url, name }, i) => (
+                    navLinks.map(({ url, name }: any, i: number) => (
                       <CSSTransition key={i} classNames={fadeDownClass} timeout={timeout}>
                         <li key={i} style={{ transitionDelay: `${isHome ? i * 100 : 0}ms` }}>
                           <Link to={url}>{name}</Link>

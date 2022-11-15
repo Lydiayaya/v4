@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import PropTypes, { any } from 'prop-types';
+//@ts-ignore
 import anime from 'animejs';
 import styled from 'styled-components';
 import { IconLoader } from '@components/icons';
@@ -84,6 +85,7 @@ const Loader = ({ finishLoading }: LoaderProps) => {
   }, []);
 
   return (
+    //@ts-ignore
     <StyledLoader className="loader" isMounted={isMounted}>
       <Helmet bodyAttributes={{ class: `hidden` }} />
 

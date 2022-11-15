@@ -42,12 +42,14 @@ const StyledSocialList = styled.ul`
     }
   }
 `;
-
-const Social = ({ isHome }) => (
+export interface SocialProps {
+  isHome: boolean;
+}
+const Social = ({ isHome }: SocialProps) => (
   <Side isHome={isHome} orientation="left">
     <StyledSocialList>
       {socialMedia &&
-        socialMedia.map(({ url, name }, i) => (
+        socialMedia.map(({ url, name }: any, i: React.Key | null | undefined) => (
           <li key={i}>
             <a href={url} aria-label={name} target="_blank" rel="noreferrer">
               <Icon name={name} />
@@ -58,8 +60,8 @@ const Social = ({ isHome }) => (
   </Side>
 );
 
-Social.propTypes = {
-  isHome: PropTypes.bool,
-};
+// Social.propTypes = {
+//   isHome: PropTypes.bool,
+// };
 
 export default Social;

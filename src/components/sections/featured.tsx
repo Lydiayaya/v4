@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
-import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+import { GatsbyImage, getImage, IGatsbyImageData } from 'gatsby-plugin-image';
 import styled from 'styled-components';
 import sr from '@utils/sr';
 import { srConfig } from '@config';
@@ -331,7 +331,7 @@ const Featured = () => {
     }
   `);
 
-  const featuredProjects = data.featured.edges.filter(({ node }) => node);
+  const featuredProjects = data.featured.edges.filter(({ node }: any) => node);
   const revealTitle = useRef(null);
   const revealProjects = useRef([]);
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -353,12 +353,13 @@ const Featured = () => {
 
       <StyledProjectsGrid>
         {featuredProjects &&
-          featuredProjects.map(({ node }, i) => {
+          featuredProjects.map(({ node }: any, i: React.Key | null | undefined) => {
             const { frontmatter, html } = node;
             const { external, title, tech, github, cover, cta } = frontmatter;
             const image = getImage(cover);
 
             return (
+              //@ts-ignore
               <StyledProject key={i} ref={el => (revealProjects.current[i] = el)}>
                 <div className="project-content">
                   <div>
@@ -375,9 +376,20 @@ const Featured = () => {
 
                     {tech.length && (
                       <ul className="project-tech-list">
-                        {tech.map((tech, i) => (
-                          <li key={i}>{tech}</li>
-                        ))}
+                        {tech.map(
+                          (
+                            tech:
+                              | boolean
+                              | React.ReactChild
+                              | React.ReactFragment
+                              | React.ReactPortal
+                              | null
+                              | undefined,
+                            i: React.Key | null | undefined,
+                          ) => (
+                            <li key={i}>{tech}</li>
+                          ),
+                        )}
                       </ul>
                     )}
 
@@ -403,7 +415,7 @@ const Featured = () => {
 
                 <div className="project-image">
                   <a href={external ? external : github ? github : '#'}>
-                    <GatsbyImage image={image} alt={title} className="img" />
+                    <GatsbyImage image={image as IGatsbyImageData} alt={title} className="img" />
                   </a>
                 </div>
               </StyledProject>

@@ -49,10 +49,10 @@ const StyledHamburgerButton = styled.button`
     background-color: var(--green);
     transition-duration: 0.22s;
     transition-property: transform;
-    transition-delay: ${props => (props.menuOpen ? `0.12s` : `0s`)};
-    transform: rotate(${props => (props.menuOpen ? `225deg` : `0deg`)});
+    transition-delay: ${(props: any) => (props.menuOpen ? `0.12s` : `0s`)};
+    transform: rotate(${(props: any) => (props.menuOpen ? `225deg` : `0deg`)});
     transition-timing-function: cubic-bezier(
-      ${props => (props.menuOpen ? `0.215, 0.61, 0.355, 1` : `0.55, 0.055, 0.675, 0.19`)}
+      ${(props: any) => (props.menuOpen ? `0.215, 0.61, 0.355, 1` : `0.55, 0.055, 0.675, 0.19`)}
     );
     &:before,
     &:after {
@@ -74,7 +74,7 @@ const StyledHamburgerButton = styled.button`
       top: ${props => (props.menuOpen ? `0` : `-10px`)};
       opacity: ${props => (props.menuOpen ? 0 : 1)};
       transition: ${({ menuOpen }) =>
-    menuOpen ? 'var(--ham-before-active)' : 'var(--ham-before)'};
+        menuOpen ? 'var(--ham-before-active)' : 'var(--ham-before)'};
     }
     &:after {
       width: ${props => (props.menuOpen ? `100%` : `80%`)};
@@ -101,7 +101,7 @@ const StyledSidebar = styled.aside`
     background-color: var(--light-navy);
     box-shadow: -10px 0px 30px -15px var(--navy-shadow);
     z-index: 9;
-    transform: translateX(${props => (props.menuOpen ? 0 : 100)}vw);
+    transform: translateX(${(props: any) => (props.menuOpen ? 0 : 100)}vw);
     visibility: ${props => (props.menuOpen ? 'visible' : 'hidden')};
     transition: var(--transition);
   }
@@ -163,31 +163,32 @@ const Menu = () => {
   const buttonRef = useRef(null);
   const navRef = useRef(null);
 
-  let menuFocusables;
-  let firstFocusableEl;
-  let lastFocusableEl;
+  let menuFocusables: string | any[];
+  let firstFocusableEl: any;
+  let lastFocusableEl: any;
 
   const setFocusables = () => {
-    menuFocusables = [buttonRef.current, ...Array.from(navRef.current.querySelectorAll('a'))];
+    //@ts-ignore
+    menuFocusables = [buttonRef.current, ...Array.from(navRef.current?.querySelectorAll('a'))];
     firstFocusableEl = menuFocusables[0];
     lastFocusableEl = menuFocusables[menuFocusables.length - 1];
   };
 
-  const handleBackwardTab = e => {
+  const handleBackwardTab = (e: { preventDefault: () => void }) => {
     if (document.activeElement === firstFocusableEl) {
       e.preventDefault();
-      lastFocusableEl.focus();
+      lastFocusableEl?.focus();
     }
   };
 
-  const handleForwardTab = e => {
+  const handleForwardTab = (e: { preventDefault: () => void }) => {
     if (document.activeElement === lastFocusableEl) {
       e.preventDefault();
       firstFocusableEl.focus();
     }
   };
 
-  const onKeyDown = e => {
+  const onKeyDown = (e: { key: any; preventDefault: () => void; shiftKey: any }) => {
     switch (e.key) {
       case KEY_CODES.ESCAPE:
       case KEY_CODES.ESCAPE_IE11: {
@@ -214,7 +215,7 @@ const Menu = () => {
     }
   };
 
-  const onResize = e => {
+  const onResize = (e: { currentTarget: { innerWidth: number } }) => {
     if (e.currentTarget.innerWidth > 768) {
       setMenuOpen(false);
     }
@@ -222,12 +223,14 @@ const Menu = () => {
 
   useEffect(() => {
     document.addEventListener('keydown', onKeyDown);
+    //@ts-ignore
     window.addEventListener('resize', onResize);
 
     setFocusables();
 
     return () => {
       document.removeEventListener('keydown', onKeyDown);
+      //@ts-ignore
       window.removeEventListener('resize', onResize);
     };
   }, []);
@@ -241,9 +244,10 @@ const Menu = () => {
         <body className={menuOpen ? 'blur' : ''} />
       </Helmet>
 
-      <div ref={wrapperRef}>
+      <div ref={wrapperRef as any}>
         <StyledHamburgerButton
           onClick={toggleMenu}
+          //@ts-ignore
           menuOpen={menuOpen}
           ref={buttonRef}
           aria-label="Menu">
@@ -251,12 +255,12 @@ const Menu = () => {
             <div className="ham-box-inner" />
           </div>
         </StyledHamburgerButton>
-
+        {/* @ts-ignore */}
         <StyledSidebar menuOpen={menuOpen} aria-hidden={!menuOpen} tabIndex={menuOpen ? 1 : -1}>
           <nav ref={navRef}>
             {navLinks && (
               <ol>
-                {navLinks.map(({ url, name }, i) => (
+                {navLinks.map(({ url, name }: any, i: React.Key | null | undefined) => (
                   <li key={i}>
                     <Link to={url} onClick={() => setMenuOpen(false)}>
                       {name}

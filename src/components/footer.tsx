@@ -68,9 +68,12 @@ const StyledCredit = styled.div`
 `;
 
 const Footer = () => {
-  const [githubInfo, setGitHubInfo] = useState({
-    stars: null,
-    forks: null,
+  const [githubInfo, setGitHubInfo] = useState<{
+    stars: string;
+    forks: string;
+  }>({
+    stars: '',
+    forks: '',
   });
 
   useEffect(() => {
@@ -94,7 +97,7 @@ const Footer = () => {
       <StyledSocialLinks>
         <ul>
           {socialMedia &&
-            socialMedia.map(({ name, url }, i) => (
+            socialMedia.map(({ name, url }: any, i: React.Key | null | undefined) => (
               <li key={i}>
                 <a href={url} aria-label={name}>
                   <Icon name={name} />
@@ -104,7 +107,7 @@ const Footer = () => {
         </ul>
       </StyledSocialLinks>
 
-      <StyledCredit tabindex="-1">
+      <StyledCredit tabIndex={-1}>
         <a href="https://github.com/bchiang7/v4">
           <div>Designed &amp; Built by Brittany Chiang</div>
 
@@ -126,8 +129,8 @@ const Footer = () => {
   );
 };
 
-Footer.propTypes = {
-  githubInfo: PropTypes.object,
-};
+// Footer.propTypes = {
+//   githubInfo: PropTypes.object,
+// };
 
 export default Footer;

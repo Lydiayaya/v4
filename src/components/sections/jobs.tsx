@@ -75,7 +75,7 @@ const StyledTabButton = styled.button`
   padding: 0 20px 2px;
   border-left: 2px solid var(--lightest-navy);
   background-color: transparent;
-  color: ${({ isActive }) => (isActive ? 'var(--green)' : 'var(--slate)')};
+  color: ${({ isActive }: any) => (isActive ? 'var(--green)' : 'var(--slate)')};
   font-family: var(--font-mono);
   font-size: var(--fz-xs);
   text-align: left;
@@ -108,7 +108,7 @@ const StyledHighlight = styled.div`
   height: var(--tab-height);
   border-radius: var(--border-radius);
   background: var(--green);
-  transform: translateY(calc(${({ activeTabId }) => activeTabId} * var(--tab-height)));
+  transform: translateY(calc(${({ activeTabId }: any) => activeTabId} * var(--tab-height)));
   transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
   transition-delay: 0.1s;
 
@@ -119,7 +119,7 @@ const StyledHighlight = styled.div`
     max-width: var(--tab-width);
     height: 2px;
     margin-left: 50px;
-    transform: translateX(calc(${({ activeTabId }) => activeTabId} * var(--tab-width)));
+    transform: translateX(calc(${({ activeTabId }: any) => activeTabId} * var(--tab-width)));
   }
   @media (max-width: 480px) {
     margin-left: 25px;
@@ -190,7 +190,7 @@ const Jobs = () => {
   const jobsData = data.jobs.edges;
 
   const [activeTabId, setActiveTabId] = useState(0);
-  const [tabFocus, setTabFocus] = useState(null);
+  const [tabFocus, setTabFocus] = useState(0);
   const tabs = useRef([]);
   const revealContainer = useRef(null);
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -205,6 +205,7 @@ const Jobs = () => {
 
   const focusTab = () => {
     if (tabs.current[tabFocus]) {
+      //@ts-ignore
       tabs.current[tabFocus].focus();
       return;
     }
@@ -222,7 +223,7 @@ const Jobs = () => {
   useEffect(() => focusTab(), [tabFocus]);
 
   // Focus on tabs when using up & down arrow keys
-  const onKeyDown = e => {
+  const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     switch (e.key) {
       case KEY_CODES.ARROW_UP: {
         e.preventDefault();
@@ -249,29 +250,32 @@ const Jobs = () => {
       <div className="inner">
         <StyledTabList role="tablist" aria-label="Job tabs" onKeyDown={e => onKeyDown(e)}>
           {jobsData &&
-            jobsData.map(({ node }, i) => {
+            jobsData.map(({ node }: any, i: number) => {
               const { company } = node.frontmatter;
               return (
                 <StyledTabButton
                   key={i}
+                  //@ts-ignore
                   isActive={activeTabId === i}
                   onClick={() => setActiveTabId(i)}
+                  //@ts-ignore
                   ref={el => (tabs.current[i] = el)}
                   id={`tab-${i}`}
                   role="tab"
-                  tabIndex={activeTabId === i ? '0' : '-1'}
+                  tabIndex={activeTabId === i ? 0 : -1}
                   aria-selected={activeTabId === i ? true : false}
                   aria-controls={`panel-${i}`}>
                   <span>{company}</span>
                 </StyledTabButton>
               );
             })}
+            {/* @ts-ignore */}
           <StyledHighlight activeTabId={activeTabId} />
         </StyledTabList>
 
         <StyledTabPanels>
           {jobsData &&
-            jobsData.map(({ node }, i) => {
+            jobsData.map(({ node }: any, i: React.Key | null | undefined) => {
               const { frontmatter, html } = node;
               const { title, url, company, range } = frontmatter;
 
@@ -280,7 +284,7 @@ const Jobs = () => {
                   <StyledTabPanel
                     id={`panel-${i}`}
                     role="tabpanel"
-                    tabIndex={activeTabId === i ? '0' : '-1'}
+                    tabIndex={activeTabId === i ? 0 : -1}
                     aria-labelledby={`tab-${i}`}
                     aria-hidden={activeTabId !== i}
                     hidden={activeTabId !== i}>
