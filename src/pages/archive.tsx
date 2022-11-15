@@ -129,7 +129,7 @@ const StyledTableContainer = styled.div`
   }
 `;
 
-const ArchivePage = ({ location, data }) => {
+const ArchivePage = ({ location, data }: any) => {
   const projects = data.allMarkdownRemark.edges;
   const revealTitle = useRef(null);
   const revealTable = useRef(null);
@@ -169,7 +169,7 @@ const ArchivePage = ({ location, data }) => {
             </thead>
             <tbody>
               {projects.length > 0 &&
-                projects.map(({ node }, i) => {
+                projects.map(({ node }: any, i: number) => {
                   const {
                     date,
                     github,
@@ -181,6 +181,7 @@ const ArchivePage = ({ location, data }) => {
                     company,
                   } = node.frontmatter;
                   return (
+                    //@ts-ignore
                     <tr key={i} ref={el => (revealProjects.current[i] = el)}>
                       <td className="overline year">{`${new Date(date).getFullYear()}`}</td>
 
@@ -192,7 +193,7 @@ const ArchivePage = ({ location, data }) => {
 
                       <td className="tech hide-on-mobile">
                         {tech?.length > 0 &&
-                          tech.map((item, i) => (
+                          tech.map((item: any, i: number) => (
                             <span key={i}>
                               {item}
                               {''}
